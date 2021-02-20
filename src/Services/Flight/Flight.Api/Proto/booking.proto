@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcBooking";
+
+service Booking {
+	rpc InitializeFlight(InitializeFlightRequest) returns (InitializeFlightResponse) {}
+	rpc StartBookingSession(StartBookingSessionRequest) returns (StartBookingSessionResponse) {}
+	rpc ValidateAndEndBookingSession(ValidateBookingSessionRequest) returns (ValidateBookingSessionResponse) {}
+}
+
+message InitializeFlightRequest {
+	int32 flightId = 1;
+	int32 availableSeats = 2;
+}
+
+message InitializeFlightResponse {
+	string errorMessage = 1;
+}
+
+message StartBookingSessionRequest {	
+	int32 flightId = 1;
+}
+
+message StartBookingSessionResponse {
+	string bookingId = 1;
+}
+
+message ValidateBookingSessionRequest{
+	int32 flightId = 1;	
+	string bookingId = 2;
+}
+
+message ValidateBookingSessionResponse{
+	string status = 1;	
+}
+

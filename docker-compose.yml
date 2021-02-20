@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  sql-data:
+    image: postgres:10.7
+
+  booking-data:
+    image: redis:alpine      
+    
+  rcli:
+    image: redis:alpine
+    links:
+    - booking-data
+    command: redis-cli -h booking-data CONFIG SET notify-keyspace-events Ex
+  flight.api:
+    image: ${DOCKER_REGISTRY-}flightapi
+    build:
+      context: .
+      dockerfile: src/Services/Flight/Flight.Api/Dockerfile
+    depends_on:
+      - sql-data
+  booking.api:
+    image: ${DOCKER_REGISTRY-}bookingapi
+    build:
+      context: .
+      dockerfile: src/Services/Booking/Booking.Api/Dockerfile
+    depends_on:
+      - sql-data
+      - booking-data
