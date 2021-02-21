@@ -42,10 +42,11 @@ namespace Flight.Domain.Entities
             }
 
             _baggages.Add(new Baggage
-            {
-                Label = label,
-                Weight = weight
-            });
+            (
+                this,
+                label,
+                weight
+            ));
         }
 
         private void BaggagesLimitExceededException()
